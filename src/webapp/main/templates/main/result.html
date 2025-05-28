@@ -1,0 +1,14 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    <h1>Результат анализа</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Результат анализа</h1>
+    <p>{{ message }}</p>
+    <a href="{% url 'index' %}">Вернуться назад</a>
+</div>
+{% endblock %}
+

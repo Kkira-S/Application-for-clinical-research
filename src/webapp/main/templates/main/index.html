@@ -1,0 +1,72 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    <h1>Введите данные</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Введите данные</h1>
+    <form id="medicalForm" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.patient.id_for_label }}">Выберите пациента:</label>
+            {{ form.patient }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.trial.id_for_label }}">Выберите исследование:</label>
+            <select id="trial" name="trial" >
+                <option value="">-- Выберите исследование --</option>
+                {% for trial in trials %}
+                    <option value="{{ trial.trial_id }}" data-med="{{ trial.med }}">{{ trial.trial_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="id_drug">Выберите препарат:</label>
+            <select id="id_drug" name="drug" required>
+                <option value="placebo">Плацебо</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.condition_score.id_for_label }}">Оценка самочувствия:</label>
+            {{ form.condition_score }}
+        </div>
+
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("✅ JavaScript загружен!");
+
+    const trialSelect = document.getElementById("trial");
+    const drugSelect = document.getElementById("id_drug");
+
+    trialSelect.addEventListener("change", function () {
+        console.log("🔄 Изменение исследования...");
+
+        const selectedOption = trialSelect.options[trialSelect.selectedIndex];
+        const med = selectedOption.getAttribute("data-med");
+
+        console.log("✅ Выбран препарат:", med);
+
+        // Очищаем список препаратов
+        drugSelect.innerHTML = `<option value="placebo">Плацебо</option>`;
+
+        if (med && med !== "None") {
+            const medOption = document.createElement("option");
+            medOption.value = med;
+            medOption.textContent = med;
+            drugSelect.appendChild(medOption);
+        }
+    });
+});
+
+</script>
+{% endblock %}
