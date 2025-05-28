@@ -1,1 +1,0 @@
-postgresql://postgres:mysecretpassword@localhost:5433/postgres
